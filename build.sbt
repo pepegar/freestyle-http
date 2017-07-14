@@ -117,6 +117,20 @@ lazy val httpPlay = (project in file("http/play"))
     ) ++ commonDeps ++ fCoreDeps
   )
 
+lazy val httpHammock = (crossProject in file("http/hammock"))
+  .settings(name := "freestyle-http-hammock")
+  .settings(
+    resolvers += Resolver.jcenterRepo,
+    libraryDependencies ++= Seq(
+      %%("freestyle", fsVersion),
+      %%("scalatest") % "test",
+      "com.pepegar" %% "hammock-core" % "0.6.3"
+    )
+  )
+
+lazy val httpHammockJS = httpHammock.js
+lazy val httpHammockJVM = httpHammock.jvm
+
 pgpPassphrase := Some(getEnvVar("PGP_PASSPHRASE").getOrElse("").toCharArray)
 pgpPublicRing := file(s"$gpgFolder/pubring.gpg")
 pgpSecretRing := file(s"$gpgFolder/secring.gpg")
@@ -132,13 +146,15 @@ lazy val jvmModules: Seq[ProjectReference] = Seq(
   httpHttp4s,
   httpFinch,
   httpAkka,
-  httpPlay
+  httpPlay,
+  httpHammockJVM
 )
 
 lazy val jsModules: Seq[ProjectReference] = Seq(
   monixJS,
   fetchJS,
-  fs2JS
+  fs2JS,
+  httpHammockJS
 )
 
 lazy val allModules: Seq[ProjectReference] = jvmModules ++ jsModules
