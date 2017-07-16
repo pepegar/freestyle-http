@@ -34,22 +34,26 @@ private[http] trait FinchMapperFrees extends FinchMapperFreeS1 {
   implicit def mapperFromFreeSOutputHFunction[Op[_], A, B, F, FOB](f: F)(
       implicit ftp: FnToProduct.Aux[F, (A) => FOB],
       ev: FOB <:< FreeS[Op, Output[B]],
-      I: Op ~> Future): Mapper.Aux[A, B] = mapperFromFreeSOutputFunction(a => ev(ftp(f)(a)))
+      I: Op ~> Future): Mapper.Aux[A, B] =
+    mapperFromFreeSOutputFunction(a => ev(ftp(f)(a)))
 
   implicit def mapperFromFreeSOutputHFunctionId[Op[_], A, B, F, FOB](f: F)(
       implicit ftp: FnToProduct.Aux[F, (A) => FOB],
       ev: FOB <:< FreeS[Op, Output[B]],
-      I: Op ~> Id): Mapper.Aux[A, B] = mapperFromFreeSOutputFunctionId(a => ev(ftp(f)(a)))
+      I: Op ~> Id): Mapper.Aux[A, B] =
+    mapperFromFreeSOutputFunctionId(a => ev(ftp(f)(a)))
 
   implicit def mapperFromFreeSParOutputHFunction[Op[_], A, B, F, FPOB](f: F)(
       implicit ftp: FnToProduct.Aux[F, (A) => FPOB],
       ev: FPOB <:< FreeS.Par[Op, Output[B]],
-      I: Op ~> Future): Mapper.Aux[A, B] = mapperFromFreeSOutputFunction(a => ev(ftp(f)(a)).freeS)
+      I: Op ~> Future): Mapper.Aux[A, B] =
+    mapperFromFreeSOutputFunction(a => ev(ftp(f)(a)).freeS)
 
   implicit def mapperFromFreeSParOutputHFunctionId[Op[_], A, B, F, FPOB](f: F)(
       implicit ftp: FnToProduct.Aux[F, (A) => FPOB],
       ev: FPOB <:< FreeS.Par[Op, Output[B]],
-      I: Op ~> Id): Mapper.Aux[A, B] = mapperFromFreeSOutputFunctionId(a => ev(ftp(f)(a)).freeS)
+      I: Op ~> Id): Mapper.Aux[A, B] =
+    mapperFromFreeSOutputFunctionId(a => ev(ftp(f)(a)).freeS)
 
   implicit def mapperFromFreeSOutputValue[Op[_], A](fo: FreeS[Op, Output[A]])(
       implicit I: Op ~> Future): Mapper.Aux[HNil, A] =
