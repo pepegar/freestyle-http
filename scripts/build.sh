@@ -28,7 +28,6 @@ DOCS_REPO="https://github.com/frees-io/freestyle-docs.git"
 
 VERSION="$(grep -F -m 1 'version in ThisBuild :=' version.sbt)"; VERSION="${VERSION#*\"}"; VERSION="${VERSION%\"*}"
 
-SCALA_JS_SCRIPT="sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS validateJS"
 SCALA_JVM_SCRIPT="sbt ++$TRAVIS_SCALA_VERSION orgScriptCI"
 
 PUBLISH_PROJECT="sbt ++$TRAVIS_SCALA_VERSION publishLocal"
@@ -37,10 +36,6 @@ DOCS_SCRIPT="cd freestyle-docs && sbt ++$TRAVIS_SCALA_VERSION -Dfrees.version=$V
 
 if [ "$SCALAENV" = "jvm" ]; then
   eval $SCALA_JVM_SCRIPT || EXIT_STATUS=$?
-fi
-
-if [ "$SCALAENV" = "js" ]; then
-  eval $SCALA_JS_SCRIPT || EXIT_STATUS=$?
 fi
 
 if [ "$FREESBUILD" = "docs" ]; then

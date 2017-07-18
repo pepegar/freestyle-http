@@ -8,7 +8,6 @@ scala:
 
 env:
 - SCALAENV=jvm
-- SCALAENV=js
 - FREESBUILD=docs
 
 matrix:
